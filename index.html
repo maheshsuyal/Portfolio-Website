@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mahesh Suyal — Software Engineer</title>
+<meta name="description" content="Mahesh Suyal — Aspiring Software Engineer. Python, Django, REST APIs, MySQL." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.28.4/babel.min.js"></script>
+<noscript>This site needs JavaScript enabled to run.</noscript>
+
+<style>
+  :root{
+    --bg: #0d1117;
+    --panel: #131a22;
+    --panel-2: #161d27;
+    --border: #232b35;
+    --text: #e6edf3;
+    --muted: #8b96a3;
+    --accent: #7ee787;   /* terminal green */
+    --accent-2: #c792ea; /* purple */
+    --accent-3: #79c0ff; /* blue */
+    --warn: #ffcb6b;
+    --mono: 'JetBrains Mono', monospace;
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(126,231,135,0.07), transparent 35%),
+      radial-gradient(circle at 85% 20%, rgba(199,146,234,0.06), transparent 40%);
+  }
+
+  ::selection{ background:var(--accent); color:#0d1117; }
+
+  a{color:inherit; text-decoration:none;}
+
+  /* scrollbar */
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--border); border-radius:6px;}
+
+  .container{ max-width:1080px; margin:0 auto; padding:0 24px; }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    backdrop-filter:blur(10px);
+    background:rgba(13,17,23,0.75);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; height:60px; }
+  .logo{ font-family:var(--mono); font-weight:600; font-size:15px; color:var(--text); display:flex; align-items:center; gap:6px;}
+  .logo .dim{ color:var(--muted); }
+  .logo .blip{ color:var(--accent); }
+  .nav-links{ display:flex; gap:28px; font-family:var(--mono); font-size:13px; color:var(--muted); }
+  .nav-links a{ position:relative; transition:color .2s; padding:4px 0;}
+  .nav-links a:hover{ color:var(--accent); }
+  .nav-links a .num{ color:var(--accent-2); margin-right:6px; }
+  .nav-cta{
+    font-family:var(--mono); font-size:12px; color:var(--accent);
+    border:1px solid rgba(126,231,135,0.4); padding:7px 14px; border-radius:6px;
+    transition:all .2s;
+  }
+  .nav-cta:hover{ background:rgba(126,231,135,0.1); }
+  .nav-toggle{ display:none; }
+
+  @media (max-width:760px){
+    .nav-links{ display:none; }
+    .nav-toggle{ display:block; }
+  }
+
+  /* ---------- HERO / TERMINAL ---------- */
+  .hero{
+    min-height:100vh; display:flex; flex-direction:column; justify-content:center;
+    padding-top:90px; padding-bottom:60px; position:relative;
+  }
+  .hero-grid{ display:grid; grid-template-columns: 1.1fr 0.9fr; gap:48px; align-items:center; }
+  @media (max-width:880px){ .hero-grid{ grid-template-columns:1fr; } }
+
+  .eyebrow{
+    font-family:var(--mono); font-size:13px; color:var(--accent);
+    display:flex; align-items:center; gap:10px; margin-bottom:18px;
+  }
+  .eyebrow .dot{ width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 0 rgba(126,231,135,.6); animation:pulse 2s infinite; }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(126,231,135,.5); }
+    70%{ box-shadow:0 0 0 8px rgba(126,231,135,0); }
+    100%{ box-shadow:0 0 0 0 rgba(126,231,135,0); }
+  }
+
+  .hero h1{
+    font-family:var(--display); font-weight:700; font-size:clamp(38px,6vw,64px);
+    line-height:1.05; letter-spacing:-0.01em; margin-bottom:18px;
+  }
+  .hero h1 .accent{ color:var(--accent); }
+  .hero h1 .accent2{ color:var(--accent-2); }
+
+  .hero p.lede{
+    font-size:17px; color:var(--muted); max-width:480px; line-height:1.65; margin-bottom:30px;
+  }
+
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--mono); font-size:13px; padding:12px 20px; border-radius:8px;
+    display:inline-flex; align-items:center; gap:8px; transition:all .2s ease; cursor:pointer; border:none;
+  }
+  .btn-primary{ background:var(--accent); color:#06250f; font-weight:600; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 24px -10px rgba(126,231,135,.5); }
+  .btn-ghost{ background:transparent; color:var(--text); border:1px solid var(--border); }
+  .btn-ghost:hover{ border-color:var(--accent-3); color:var(--accent-3); transform:translateY(-2px); }
+
+  /* terminal card */
+  .term{
+    background:var(--panel); border:1px solid var(--border); border-radius:12px;
+    overflow:hidden; box-shadow:0 30px 60px -30px rgba(0,0,0,.6);
+    font-family:var(--mono); font-size:13.5px;
+  }
+  .term-bar{
+    display:flex; align-items:center; gap:8px; padding:10px 14px;
+    background:var(--panel-2); border-bottom:1px solid var(--border);
+  }
+  .term-dot{ width:11px; height:11px; border-radius:50%; }
+  .term-bar .title{ margin-left:8px; color:var(--muted); font-size:12px; }
+  .term-body{ padding:20px; min-height:240px; color:#c9d1d9; line-height:1.85; }
+  .term-body .prompt{ color:var(--accent); }
+  .term-body .path{ color:var(--accent-3); }
+  .term-body .key{ color:var(--accent-2); }
+  .term-body .str{ color:var(--warn); }
+  .caret{ display:inline-block; width:8px; height:16px; background:var(--accent); vertical-align:middle; animation:blink 1s steps(1) infinite; margin-left:2px;}
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding:110px 0; border-top:1px solid var(--border); position:relative; }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom:48px; }
+  .sec-num{ font-family:var(--mono); color:var(--accent-2); font-size:14px; }
+  .sec-title{ font-family:var(--display); font-size:clamp(26px,4vw,36px); font-weight:700; }
+  .sec-line{ flex:1; height:1px; background:linear-gradient(90deg, var(--border), transparent); }
+
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.show{ opacity:1; transform:translateY(0); }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{ display:grid; grid-template-columns: 0.85fr 1.15fr; gap:50px; }
+  @media (max-width:820px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-text p{ color:var(--muted); line-height:1.85; font-size:15.5px; margin-bottom:16px; }
+  .about-text strong{ color:var(--text); }
+
+  .stat-card{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:18px 20px;
+  }
+  .stat-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .stat-num{ font-family:var(--display); font-size:28px; font-weight:700; color:var(--accent); }
+  .stat-label{ font-family:var(--mono); font-size:11.5px; color:var(--muted); margin-top:4px; }
+
+  /* ---------- SKILLS — file tree ---------- */
+  .filetree{
+    background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden;
+  }
+  .ft-bar{ padding:10px 16px; background:var(--panel-2); border-bottom:1px solid var(--border); font-family:var(--mono); font-size:12px; color:var(--muted); }
+  .ft-body{ padding:10px 0; }
+  .ft-folder{ }
+  .ft-folder-head{
+    display:flex; align-items:center; gap:8px; padding:12px 20px; cursor:default;
+    font-family:var(--mono); font-size:14px; color:var(--text); font-weight:600;
+  }
+  .ft-folder-head .chev{ color:var(--accent); }
+  .ft-items{ padding:2px 20px 14px 46px; display:flex; flex-wrap:wrap; gap:8px; }
+  .ft-chip{
+    font-family:var(--mono); font-size:12.5px; padding:5px 11px; border-radius:6px;
+    background:var(--panel-2); border:1px solid var(--border); color:#c9d1d9;
+    transition:all .2s;
+  }
+  .ft-chip:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+
+  /* ---------- PROJECTS ---------- */
+  .proj-grid{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  @media (max-width:780px){ .proj-grid{ grid-template-columns:1fr; } }
+  .proj-card{
+    background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden;
+    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .proj-card:hover{ transform:translateY(-6px); border-color:rgba(126,231,135,.35); box-shadow:0 20px 40px -24px rgba(126,231,135,.25); }
+  .proj-top{ display:flex; align-items:center; gap:8px; padding:10px 14px; background:var(--panel-2); border-bottom:1px solid var(--border); }
+  .proj-body{ padding:20px; }
+  .proj-name{ font-family:var(--display); font-size:18px; font-weight:700; margin-bottom:4px; }
+  .proj-stack{ font-family:var(--mono); font-size:11.5px; color:var(--accent-2); margin-bottom:14px; display:block; }
+  .proj-body ul{ list-style:none; }
+  .proj-body li{ color:var(--muted); font-size:13.8px; line-height:1.7; padding-left:18px; position:relative; margin-bottom:6px; }
+  .proj-body li::before{ content:"▸"; color:var(--accent); position:absolute; left:0; }
+
+  /* ---------- EDUCATION timeline ---------- */
+  .tl{ position:relative; padding-left:30px; }
+  .tl::before{ content:""; position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:var(--border); }
+  .tl-item{ position:relative; padding-bottom:36px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-dot{ position:absolute; left:-30px; top:4px; width:11px; height:11px; border-radius:50%; background:var(--bg); border:2px solid var(--accent); }
+  .tl-year{ font-family:var(--mono); font-size:12px; color:var(--accent-2); margin-bottom:4px; }
+  .tl-title{ font-family:var(--display); font-weight:700; font-size:17px; margin-bottom:2px; }
+  .tl-sub{ color:var(--muted); font-size:13.5px; margin-bottom:6px; }
+  .tl-meta{ font-family:var(--mono); font-size:12.5px; color:var(--accent); }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  .contact{ text-align:center; }
+  .contact h2{ font-family:var(--display); font-size:clamp(28px,5vw,46px); font-weight:700; margin-bottom:16px; }
+  .contact p{ color:var(--muted); max-width:480px; margin:0 auto 34px; line-height:1.7; }
+  .contact-links{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:50px; }
+  .link-card{
+    display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:13px;
+    background:var(--panel); border:1px solid var(--border); padding:12px 18px; border-radius:9px;
+    transition:all .2s;
+  }
+  .link-card:hover{ border-color:var(--accent); transform:translateY(-3px); color:var(--accent); }
+  footer{ text-align:center; padding:26px 0; border-top:1px solid var(--border); font-family:var(--mono); font-size:12px; color:var(--muted); }
+
+  .icon{ width:16px; height:16px; flex-shrink:0; }
+
+  .blink-cursor-wrap{ display:inline-flex; align-items:center; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/plain" id="app-source">
+
+const { useEffect, useRef, useState } = React;
+
+/* ---------------- generic icons (inline svg, no deps) ---------------- */
+const Icon = ({ name }) => {
+  const paths = {
+    mail: "M3 5h18v14H3V5zm0 0l9 7 9-7",
+    phone: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.99.36 1.97.68 2.91a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.94.32 1.92.55 2.91.68A2 2 0 0 1 22 16.92z",
+    pin: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z",
+    linkedin: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2zM4 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4z",
+    github: "M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22",
+    arrow: "M5 12h14M12 5l7 7-7 7",
+    download: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3",
+  };
+  return (
+    <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d={paths[name]} />
+    </svg>
+  );
+};
+
+/* ---------------- reveal-on-scroll hook ---------------- */
+function useReveal() {
+  const ref = useRef(null);
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) setShow(true); });
+    }, { threshold: 0.15 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return [ref, show];
+}
+
+const Reveal = ({ children, delay = 0 }) => {
+  const [ref, show] = useReveal();
+  return (
+    <div ref={ref} className={`reveal ${show ? "show" : ""}`} style={{ transitionDelay: `${delay}ms` }}>
+      {children}
+    </div>
+  );
+};
+
+/* ---------------- typed terminal hero ---------------- */
+const TerminalHero = () => {
+  const lines = [
+    { p: "~/mahesh-suyal $", c: " whoami", type: "cmd" },
+    { c: "Mahesh Suyal — Aspiring Software Engineer", type: "out" },
+    { p: "~/mahesh-suyal $", c: " cat focus.txt", type: "cmd" },
+    { c: "Python · Django · DRF · REST APIs · MySQL", type: "out" },
+    { p: "~/mahesh-suyal $", c: " status", type: "cmd" },
+    { c: "B.Tech CSE, 8th sem · open to Software Engineer roles", type: "out" },
+  ];
+  const [visible, setVisible] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+
+  useEffect(() => {
+    if (visible >= lines.length) return;
+    const full = (lines[visible].p || "") + lines[visible].c;
+    if (charIdx < full.length) {
+      const t = setTimeout(() => setCharIdx(charIdx + 1), lines[visible].type === "cmd" ? 35 : 12);
+      return () => clearTimeout(t);
+    } else {
+      const t = setTimeout(() => { setVisible(visible + 1); setCharIdx(0); }, 380);
+      return () => clearTimeout(t);
+    }
+  }, [visible, charIdx]);
+
+  return (
+    <div className="term">
+      <div className="term-bar">
+        <span className="term-dot" style={{ background: "#ff5f56" }}></span>
+        <span className="term-dot" style={{ background: "#ffbd2e" }}></span>
+        <span className="term-dot" style={{ background: "#27c93f" }}></span>
+        <span className="title">mahesh@portfolio — zsh</span>
+      </div>
+      <div className="term-body">
+        {lines.slice(0, visible).map((l, i) => (
+          <div key={i}>
+            {l.p ? <span className="prompt">{l.p}</span> : null}
+            <span style={{ color: l.type === "out" ? "#c9d1d9" : "#e6edf3" }}>{l.c}</span>
+          </div>
+        ))}
+        {visible < lines.length && (
+          <div>
+            {lines[visible].p ? <span className="prompt">{lines[visible].p}</span> : null}
+            <span>{((lines[visible].p || "") + lines[visible].c).slice((lines[visible].p || "").length, charIdx)}</span>
+            <span className="caret"></span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+/* ---------------- nav ---------------- */
+const Nav = () => {
+  const links = [
+    ["01", "About", "#about"],
+    ["02", "Skills", "#skills"],
+    ["03", "Projects", "#projects"],
+    ["04", "Education", "#education"],
+    ["05", "Contact", "#contact"],
+  ];
+  return (
+    <div className="nav">
+      <div className="container nav-inner">
+        <div className="logo"><span className="blip">&gt;</span> mahesh<span className="dim">.suyal</span></div>
+        <div className="nav-links">
+          {links.map(([n, label, href]) => (
+            <a key={href} href={href}><span className="num">{n}</span>{label}</a>
+          ))}
+        </div>
+        <a className="nav-cta" href="mailto:maheshsuyal13@gmail.com">say hello →</a>
+      </div>
+    </div>
+  );
+};
+
+/* ---------------- hero ---------------- */
+const Hero = () => (
+  <section className="hero" style={{ borderTop: "none" }}>
+    <div className="container hero-grid">
+      <div>
+        <div className="eyebrow"><span className="dot"></span> AVAILABLE FOR SOFTWARE ENGINEER ROLES</div>
+        <h1>Building backend<br />systems that <span className="accent">just work</span>,<br />one <span className="accent2">commit</span> at a time.</h1>
+        <p className="lede">
+          I'm Mahesh Suyal, a final-year Computer Science Engineering student who builds full-stack
+          web applications with Python, Django and REST APIs — and ships them, not just plans them.
+        </p>
+        <div className="hero-actions">
+          <a className="btn btn-primary" href="#projects">View my work <Icon name="arrow" /></a>
+          <a className="btn btn-ghost" href="mailto:maheshsuyal13@gmail.com">Get in touch <Icon name="mail" /></a>
+        </div>
+      </div>
+      <TerminalHero />
+    </div>
+  </section>
+);
+
+/* ---------------- about ---------------- */
+const About = () => (
+  <section id="about">
+    <div className="container">
+      <div className="sec-head"><span className="sec-num">01</span><span className="sec-title">About</span><span className="sec-line"></span></div>
+      <Reveal>
+        <div className="about-grid">
+          <div className="stat-card">
+            <div className="stat-grid">
+              <div>
+                <div className="stat-num">7.75</div>
+                <div className="stat-label">CGPA / 10</div>
+              </div>
+              <div>
+                <div className="stat-num">8th</div>
+                <div className="stat-label">SEMESTER, B.TECH CSE</div>
+              </div>
+              <div>
+                <div className="stat-num">5+</div>
+                <div className="stat-label">PROJECTS SHIPPED</div>
+              </div>
+              <div>
+                <div className="stat-num">2026</div>
+                <div className="stat-label">GRADUATING</div>
+              </div>
+            </div>
+          </div>
+          <div className="about-text">
+            <p>
+              I'm an aspiring Software Engineer with strong foundations in <strong>Python, C++, Java, Data Structures &amp; Algorithms</strong>,
+              Database Management Systems, and Web Development.
+            </p>
+            <p>
+              Most of my hands-on experience comes from <strong>building real web applications with Django and REST
+              APIs</strong> — handling authentication, database design, and backend logic end-to-end rather than
+              just following tutorials.
+            </p>
+            <p>
+              I'm currently in the final year of my <strong>B.Tech in Computer Science Engineering</strong> at the
+              Institute of Engineering, Mohanlal Sukhadia University, Udaipur, and looking for an entry-level
+              Software Engineer role where I can contribute to impactful software solutions while continuing to
+              grow.
+            </p>
+          </div>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+);
+
+/* ---------------- skills ---------------- */
+const Skills = () => {
+  const groups = [
+    { name: "languages/", items: ["Python", "C++", "Java", "C", "JavaScript"] },
+    { name: "web/", items: ["HTML5", "CSS3", "Bootstrap"] },
+    { name: "frameworks/", items: ["Django", "Django REST Framework", "REST APIs", "Git", "GitHub"] },
+    { name: "database/", items: ["MySQL"] },
+  ];
+  return (
+    <section id="skills">
+      <div className="container">
+        <div className="sec-head"><span className="sec-num">02</span><span className="sec-title">Skills</span><span className="sec-line"></span></div>
+        <Reveal>
+          <div className="filetree">
+            <div className="ft-bar">~/mahesh-suyal/skills</div>
+            <div className="ft-body">
+              {groups.map((g, i) => (
+                <div className="ft-folder" key={g.name}>
+                  <div className="ft-folder-head"><span className="chev">▾</span> {g.name}</div>
+                  <div className="ft-items">
+                    {g.items.map(it => <span className="ft-chip" key={it}>{it}</span>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+};
+
+/* ---------------- projects ---------------- */
+const Projects = () => {
+  const projects = [
+    {
+      name: "Auto Chatbot using Gemini API",
+      stack: "Python · Google Gemini API",
+      points: [
+        "Developed an AI-powered chatbot using Python and Google's Gemini API.",
+        "The bot answers user queries with intelligent responses in real-time.",
+      ],
+    },
+    {
+      name: "Django Twitter Lite App",
+      stack: "Django · Bootstrap · MySQL",
+      points: [
+        "Developed a full-stack social media application using Django and MySQL.",
+        "Implemented user authentication, authorization, session management, and CRUD operations.",
+        "Designed database models and optimized backend functionality for efficient data handling.",
+      ],
+    },
+    {
+      name: "Bank Management System",
+      stack: "Python · MySQL",
+      points: [
+        "Developed a database-driven banking system for account management and transactions.",
+        "Implemented CRUD operations and secure data handling using MySQL.",
+        "Structured backend logic for efficient financial data processing.",
+      ],
+    },
+    {
+      name: "Blog Website",
+      stack: "Django · Bootstrap",
+      points: [
+        "Created a blogging platform with full CRUD functionality.",
+        "Implemented user authentication and admin panel for content management.",
+        "Designed responsive UI using Bootstrap.",
+      ],
+    },
+    {
+      name: "Contact Form with Email Integration",
+      stack: "Django · SMTP",
+      points: [
+        "Developed a contact form with SMTP-based email functionality.",
+        "Enabled real-time communication between users and admin.",
+        "Implemented form validation and error handling.",
+      ],
+    },
+  ];
+  return (
+    <section id="projects">
+      <div className="container">
+        <div className="sec-head"><span className="sec-num">03</span><span className="sec-title">Projects</span><span className="sec-line"></span></div>
+        <div className="proj-grid">
+          {projects.map((p, i) => (
+            <Reveal key={p.name} delay={i * 60}>
+              <div className="proj-card">
+                <div className="proj-top">
+                  <span className="term-dot" style={{ background: "#ff5f56" }}></span>
+                  <span className="term-dot" style={{ background: "#ffbd2e" }}></span>
+                  <span className="term-dot" style={{ background: "#27c93f" }}></span>
+                </div>
+                <div className="proj-body">
+                  <div className="proj-name">{p.name}</div>
+                  <span className="proj-stack">{p.stack}</span>
+                  <ul>{p.points.map((pt, j) => <li key={j}>{pt}</li>)}</ul>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+/* ---------------- education ---------------- */
+const Education = () => {
+  const items = [
+    { year: "2022 — 2026", title: "B.Tech in Computer Science Engineering", sub: "Institute of Engineering, Mohanlal Sukhadia University, Udaipur", meta: "CGPA: 7.75 · Currently in 8th Semester" },
+    { year: "2022", title: "12th — RBSE Board", sub: "New Central Academy Senior Secondary School, Udaipur", meta: "78.20%" },
+    { year: "2020", title: "10th — RBSE Board", sub: "New Central Academy Senior Secondary School, Udaipur", meta: "85.50%" },
+    { year: "2024", title: "Basic Web Development Training", sub: "Z-Max Compu Academy, Udaipur", meta: "Portfolio sites, interactive games & clones · UI/UX, DOM manipulation, responsive layout" },
+  ];
+  return (
+    <section id="education">
+      <div className="container">
+        <div className="sec-head"><span className="sec-num">04</span><span className="sec-title">Education &amp; Training</span><span className="sec-line"></span></div>
+        <Reveal>
+          <div className="tl">
+            {items.map((it, i) => (
+              <div className="tl-item" key={i}>
+                <div className="tl-dot"></div>
+                <div className="tl-year">{it.year}</div>
+                <div className="tl-title">{it.title}</div>
+                <div className="tl-sub">{it.sub}</div>
+                <div className="tl-meta">{it.meta}</div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+};
+
+/* ---------------- contact ---------------- */
+const Contact = () => (
+  <section id="contact" className="contact">
+    <div className="container">
+      <div className="sec-head" style={{ justifyContent: "center" }}>
+        <span className="sec-num">05</span><span className="sec-title">Contact</span>
+      </div>
+      <Reveal>
+        <h2>Let's build something <span style={{ color: "var(--accent)" }}>real</span>.</h2>
+        <p>I'm actively looking for entry-level Software Engineer opportunities. Reach out — I reply fast.</p>
+        <div className="contact-links">
+          <a className="link-card" href="mailto:maheshsuyal13@gmail.com"><Icon name="mail" /> maheshsuyal13@gmail.com</a>
+          <a className="link-card" href="tel:+919079109013"><Icon name="phone" /> +91 9079109013</a>
+          <a className="link-card" href="https://www.linkedin.com/in/mahesh0600" target="_blank" rel="noreferrer"><Icon name="linkedin" /> linkedin.com/in/mahesh0600</a>
+          <a className="link-card" href="https://github.com/maheshsuyal" target="_blank" rel="noreferrer"><Icon name="github" /> github.com/maheshsuyal</a>
+          <span className="link-card"><Icon name="pin" /> Udaipur, Rajasthan</span>
+        </div>
+      </Reveal>
+    </div>
+  </section>
+);
+
+const Footer = () => (
+  <footer>
+    <div className="container">
+      built by Mahesh Suyal · <span style={{ color: "var(--accent)" }}>console.log("hire me")</span> · © {new Date().getFullYear()}
+    </div>
+  </footer>
+);
+
+const App = () => (
+  <React.Fragment>
+    <Nav />
+    <Hero />
+    <About />
+    <Skills />
+    <Projects />
+    <Education />
+    <Contact />
+    <Footer />
+  </React.Fragment>
+);
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+
+<script>
+  // Manually compile the JSX source instead of relying on Babel's automatic
+  // page-wide script scanner (avoids conflicts with other scripts injected
+  // by hosting/preview tools).
+  (function () {
+    if (typeof Babel === "undefined" || typeof React === "undefined" || typeof ReactDOM === "undefined") {
+      document.getElementById("root").innerHTML =
+        '<div style="padding:60px;font-family:monospace;color:#e6edf3;background:#0d1117;min-height:100vh;">' +
+        '<h2 style="color:#ff5f56;">Could not load required scripts (React/Babel).</h2>' +
+        '<p style="color:#8b96a3;max-width:600px;">This page needs an internet connection to load React and Babel from a CDN. ' +
+        'Check your connection, disable any ad-blocker/VPN restriction for this page, then refresh.</p></div>';
+      return;
+    }
+    var source = document.getElementById("app-source").textContent;
+    var compiled = Babel.transform(source, { presets: ["react"] }).code;
+    var script = document.createElement("script");
+    script.text = compiled;
+    document.body.appendChild(script);
+  })();
+</script>
+</body>
+</html>
